@@ -1,0 +1,63 @@
+# ==========================================
+# GENERAL / OS FILES
+# ==========================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+.vscode/
+
+# ==========================================
+# SPRING BOOT / JAVA BACKEND
+# ==========================================
+# Build outputs and dependency directories
+target/
+build/
+.gradle/
+out/
+
+# IDE specific files
+.classpath
+.project
+.settings/
+.sts4-cache/
+
+# Spring Boot specific
+*.log
+logs/
+restarted-main.jar
+
+# Environment and local config files
+.env
+.env.local
+.env.*.local
+
+# ==========================================
+# NEXT.JS / NODE.JS FRONTEND
+# ==========================================
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Next.js build output
+.next/
+out/
+
+# Production builds / cache
+dist/
+.cache/
+.turbo/
+
+# Environment files
+.env
+.env*.local
+
+# Vercel deployment files
+.vercel
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts

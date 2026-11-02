@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "react-quill-new/dist/quill.snow.css";
+
+:root {
+  color-scheme: light;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --paper: #f8fafc;
+  --line: #e2e8f0;
+  --accent: #2563eb;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes drafts-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drafts-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.drafts-dialog-backdrop {
+  animation: drafts-fade-in 160ms ease-out both;
+}
+
+.drafts-dialog-panel {
+  animation: drafts-dialog-in 200ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .drafts-dialog-backdrop,
+  .drafts-dialog-panel {
+    animation: none;
+  }
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1,
+h2,
+h3,
+.editorial-serif {
+  font-family: Georgia, "Times New Roman", serif;
+}
+::selection {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.blog-content {
+  color: #334155;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.blog-content > * + * {
+  margin-top: 1.25em;
+}
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  color: #0f172a;
+  line-height: 1.25;
+  margin-top: 2em;
+}
+.blog-content h1 {
+  font-size: 2rem;
+}
+.blog-content h2 {
+  font-size: 1.6rem;
+}
+.blog-content h3 {
+  font-size: 1.25rem;
+}
+.blog-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.blog-content blockquote {
+  border-left: 3px solid #93c5fd;
+  padding-left: 1.25rem;
+  color: #64748b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2em;
+}
+.blog-content img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  border-radius: 1rem;
+}
+.blog-content pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 1rem;
+}
+
+.drafts-editor .ql-toolbar.ql-snow {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px 12px 0 0;
+  background: #f8fafc;
+}
+
+.drafts-editor .ql-container.ql-snow {
+  border: 1px solid #cbd5e1;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+  font-size: 1rem;
+}
+
+.drafts-editor .ql-editor {
+  min-height: 32.5rem;
+  padding: 1.75rem 2rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 40rem) {
+  .drafts-editor .ql-editor {
+    min-height: 26.25rem;
+    padding: 1.25rem;
+  }
+}
+
+.drafts-editor .ql-editor h1 {
+  font-size: 2rem;
+}
+
+.drafts-editor .ql-editor h2 {
+  font-size: 1.6rem;
+}
