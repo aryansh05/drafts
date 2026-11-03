@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     title: "Drafts — stories worth sharing",
     description: "Read, write, and share ideas with the Drafts community.",
   },
+  verification: {
+    google: "jCZ_gULX0FzZ4l_JoxTlNct7fp8iyYbgo5Qz-b7Djkw",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
