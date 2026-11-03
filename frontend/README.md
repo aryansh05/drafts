@@ -10,4 +10,10 @@ forwards HttpOnly session cookies and enforces CSRF checks. Set
 use the production origin. Set `SECURE_COOKIES=true` on the backend in HTTPS
 deployments.
 
+Set `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` in `frontend/.env` for local development
+and in the Vercel frontend project environment before building. Create the key
+in Web3Forms for the inbox that should receive contact form submissions. The key
+is designed for browser use and is sent directly from the contact form to
+`https://api.web3forms.com/submit`.
+
 Run locally with `npm ci` and `npm run dev`.

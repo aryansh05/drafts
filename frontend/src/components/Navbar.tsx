@@ -1,6 +1,6 @@
 "use client";
 
-import { LogIn, LogOut, PenLine, Plus, Search } from "lucide-react";
+import { LogIn, LogOut, PenLine, Phone, Plus, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -115,6 +115,14 @@ export default function Navbar({ onOpenSearch }: { onOpenSearch: () => void }) {
             <LogIn size={16} /> Sign in
           </Link>
         )}
+        <Link
+          href="/contact"
+          aria-label="Contact me"
+          title="Contact me"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-900 bg-slate-900 text-white shadow-sm transition hover:-translate-y-0.5 hover:border-blue-800 hover:bg-blue-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+          <Phone size={16} aria-hidden="true" />
+        </Link>
       </div>
     </nav>
   );
