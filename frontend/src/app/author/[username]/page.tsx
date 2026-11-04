@@ -1,18 +1,62 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { BlogCard } from "@/components/BlogCard";
 import BlogLikeProvider from "@/components/BlogLikeProvider";
 import { apiRequest } from "@/lib/api";
+import { absoluteUrl } from "@/lib/seo";
 import type { PublicProfile } from "@/types/auth";
 import type { BlogPage } from "@/types/blog";
 
 export const instant = false;
 
+const getProfile = cache((username: string) =>
+  apiRequest<PublicProfile>(`/users/${encodeURIComponent(username)}`),
+);
+
 type AuthorPageProps = {
   params: Promise<{ username: string }>;
   searchParams: Promise<{ page?: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: AuthorPageProps): Promise<Metadata> {
+  const { username } = await params;
+  const title = `${username}’s stories`;
+  const description = `Read published stories by ${username} on Drafts.`;
+  try {
+    const profile = await getProfile(username);
+    return {
+      title,
+      description,
+      alternates: { canonical: `/author/${encodeURIComponent(username)}` },
+      robots: { index: true, follow: true },
+      openGraph: {
+        type: "profile",
+        title,
+        description,
+        siteName: "Drafts",
+        url: absoluteUrl(`/author/${encodeURIComponent(username)}`),
+        ...(profile.profileImageUrl
+          ? { images: [profile.profileImageUrl] }
+          : {}),
+      },
+      twitter: {
+        card: profile.profileImageUrl ? "summary_large_image" : "summary",
+        title,
+        description,
+        ...(profile.profileImageUrl
+          ? { images: [profile.profileImageUrl] }
+          : {}),
+      },
+    };
+  } catch {
+    return { title, description, robots: { index: false, follow: false } };
+  }
+}
 
 export default async function AuthorPage({
   params,
@@ -28,7 +72,7 @@ export default async function AuthorPage({
       apiRequest<BlogPage>(
         `/blog/creator/${encodeURIComponent(username)}?page=${page}&size=12`,
       ),
-      apiRequest<PublicProfile>(`/users/${encodeURIComponent(username)}`),
+      getProfile(username),
     ]);
   } catch (error) {
     if (error instanceof Error && error.message.includes("404")) notFound();

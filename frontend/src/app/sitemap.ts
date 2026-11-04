@@ -1,11 +1,8 @@
 import type { MetadataRoute } from "next";
 import { connection } from "next/server";
 import { apiRequest } from "@/lib/api";
+import { SITE_URL } from "@/lib/seo";
 import type { BlogPage } from "@/types/blog";
-
-const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-).replace(/\/$/, "");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await connection();

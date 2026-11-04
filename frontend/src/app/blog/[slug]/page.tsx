@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock3, MessageCircle } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,10 +9,10 @@ import BlogContent from "@/components/BlogContent";
 import BlogLikeButton from "@/components/BlogLikeButton";
 import BlogLikeProvider from "@/components/BlogLikeProvider";
 import BlogTableOfContents from "@/components/BlogTableOfContents";
-import ReadingProgress from "@/components/ReadingProgress";
 import ShareButton from "@/components/ShareButton";
 import { apiRequest } from "@/lib/api";
-import { getReadingMinutes } from "@/lib/content";
+import { getPlainText } from "@/lib/content";
+import { absoluteUrl, SITE_URL } from "@/lib/seo";
 import type { Blog } from "@/types/blog";
 
 type BlogPageProps = {
@@ -29,24 +29,28 @@ export async function generateMetadata({
   try {
     const { slug } = await params;
     const blog = await getBlog(slug);
+    const description =
+      blog.disc?.trim() || getPlainText(blog.content).slice(0, 160);
     return {
       title: blog.title,
-      description: blog.disc,
+      description,
       alternates: { canonical: `/blog/${blog.slug}` },
+      robots: { index: blog.publish, follow: blog.publish },
       openGraph: {
         title: blog.title,
-        description: blog.disc,
+        description,
         type: "article",
         publishedTime: blog.createdAt,
         modifiedTime: blog.updatedAt,
         authors: [blog.creatorUsername],
         siteName: "Drafts",
+        url: absoluteUrl(`/blog/${encodeURIComponent(blog.slug)}`),
         ...(blog.imageUrl ? { images: [blog.imageUrl] } : {}),
       },
       twitter: {
         card: blog.imageUrl ? "summary_large_image" : "summary",
         title: blog.title,
-        description: blog.disc,
+        description,
         ...(blog.imageUrl ? { images: [blog.imageUrl] } : {}),
       },
     };
@@ -122,16 +126,27 @@ async function BlogArticle({ params }: BlogPageProps) {
           image: blog.imageUrl || undefined,
           datePublished: blog.createdAt,
           dateModified: blog.updatedAt,
+          inLanguage: "en",
+          wordCount: getPlainText(blog.content).split(/\s+/).filter(Boolean)
+            .length,
           author: {
             "@type": "Person",
             name: blog.creatorUsername,
-            url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/author/${encodeURIComponent(blog.creatorUsername)}`,
+            url: absoluteUrl(
+              `/author/${encodeURIComponent(blog.creatorUsername)}`,
+            ),
           },
-          mainEntityOfPage: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/blog/${blog.slug}`,
-          publisher: { "@type": "Organization", name: "Drafts" },
+          mainEntityOfPage: absoluteUrl(
+            `/blog/${encodeURIComponent(blog.slug)}`,
+          ),
+          isPartOf: { "@type": "WebSite", name: "Drafts", url: `${SITE_URL}/` },
+          publisher: {
+            "@type": "Organization",
+            name: "Drafts",
+            logo: { "@type": "ImageObject", url: absoluteUrl("/favicon.png") },
+          },
         }).replace(/</g, "\\u003c")}
       </script>
-      <ReadingProgress targetId={`story-content-${blog.id}`} />
       <div className="mx-auto grid max-w-[90rem] items-start gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:gap-12 lg:py-12 xl:gap-16">
         <BlogTableOfContents contentId={`story-content-${blog.id}`} />
         <article className="mx-auto w-full max-w-3xl lg:order-1 lg:mx-0 lg:max-w-none">
@@ -183,9 +198,6 @@ async function BlogArticle({ params }: BlogPageProps) {
                   </Link>
                   <p className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
                     {formatDate(blog.createdAt)}
-                    <span aria-hidden="true">·</span>
-                    <Clock3 size={13} />
-                    {getReadingMinutes(blog.content)} min read
                   </p>
                 </div>
               </div>

@@ -10,8 +10,3 @@ export function getPlainText(html: string): string {
     .replace(/\s+/g, " ")
     .trim();
 }
-
-export function getReadingMinutes(html: string): number {
-  const words = getPlainText(html).split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(words / 220));
-}

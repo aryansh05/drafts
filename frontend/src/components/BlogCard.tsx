@@ -1,8 +1,6 @@
-import { Clock3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import BlogLikeButton from "@/components/BlogLikeButton";
-import { getReadingMinutes } from "@/lib/content";
 import type { Blog } from "@/types/blog";
 
 function formatDate(date: string): string {
@@ -45,11 +43,8 @@ export function BlogCard({ blog }: { blog: Blog }) {
           )}
         </div>
         <div className="px-5 pb-5 pt-4">
-          <div className="flex items-center justify-between gap-3 text-xs text-slate-500">
+          <div className="text-xs text-slate-500">
             <time dateTime={blog.createdAt}>{formatDate(blog.createdAt)}</time>
-            <span className="inline-flex items-center gap-1">
-              <Clock3 size={13} /> {getReadingMinutes(blog.content)} min read
-            </span>
           </div>
           <h2 className="editorial-serif mt-2 line-clamp-2 text-2xl font-normal leading-snug text-slate-900 group-hover:text-blue-700">
             {blog.title}

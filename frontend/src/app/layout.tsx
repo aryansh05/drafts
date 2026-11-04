@@ -4,6 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import AppFrame from "@/components/AppFrame";
+import { SITE_URL } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,20 +17,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
-  title: { default: "Drafts — stories worth sharing", template: "%s | Drafts" },
+  metadataBase: new URL(SITE_URL),
+  applicationName: "Drafts",
+  title: { default: "Drafts", template: "%s | Drafts" },
   description: "Read, write, and share ideas with the Drafts community.",
+  alternates: { canonical: "/" },
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "96x96" }],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     type: "website",
     siteName: "Drafts",
-    title: "Drafts — stories worth sharing",
+    url: SITE_URL,
+    title: "Drafts",
     description: "Read, write, and share ideas with the Drafts community.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drafts — stories worth sharing",
+    title: "Drafts",
     description: "Read, write, and share ideas with the Drafts community.",
   },
   verification: {
