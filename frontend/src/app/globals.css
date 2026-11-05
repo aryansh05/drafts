@@ -74,6 +74,28 @@ h3,
 .blog-content > * + * {
   margin-top: 1.25em;
 }
+.blog-content ul,
+.blog-content ol {
+  padding-left: 1.5rem;
+}
+.blog-content ul {
+  list-style: disc;
+}
+.blog-content ol {
+  list-style: decimal;
+}
+.blog-content li + li {
+  margin-top: 0.4em;
+}
+.blog-content li.ql-indent-1 {
+  margin-left: 1.5rem;
+}
+.blog-content li.ql-indent-2 {
+  margin-left: 3rem;
+}
+.blog-content li.ql-indent-3 {
+  margin-left: 4.5rem;
+}
 .blog-content h1,
 .blog-content h2,
 .blog-content h3 {
@@ -89,6 +111,15 @@ h3,
 }
 .blog-content h3 {
   font-size: 1.25rem;
+}
+.blog-content .ql-align-center {
+  text-align: center;
+}
+.blog-content .ql-align-right {
+  text-align: right;
+}
+.blog-content .ql-align-justify {
+  text-align: justify;
 }
 .blog-content a {
   color: #2563eb;
@@ -114,6 +145,17 @@ h3,
   background: #0f172a;
   color: #f8fafc;
   padding: 1rem;
+}
+.blog-content code {
+  border-radius: 0.25rem;
+  background: #e2e8f0;
+  padding: 0.1em 0.3em;
+  color: #0f172a;
+}
+.blog-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
 }
 
 .drafts-editor .ql-toolbar.ql-snow {
